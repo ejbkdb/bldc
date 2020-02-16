@@ -576,7 +576,12 @@ static void terminal_cmd_store_current_sensor_gain(int argc, const char **argv) 
 		}
 	}
 	else {
-		commands_printf("1 argument required. For example: axiom_store_current_sensor_gain 0.003761");
+		commands_printf("1 argument required. Here are some examples:");
+		commands_printf("ISB-425-A:  axiom_store_current_sensor_gain 0.003761");
+		commands_printf("HASS 100-S: axiom_store_current_sensor_gain 0.004994");
+		commands_printf("HASS 400-S: axiom_store_current_sensor_gain 0.001249");
+		commands_printf("HASS 600-S: axiom_store_current_sensor_gain 0.0008324");
+		commands_printf("HTFS 800-P: axiom_store_current_sensor_gain 0.001249");
 		commands_printf(" ");
 	}
 	commands_printf(" ");
