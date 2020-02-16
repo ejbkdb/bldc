@@ -114,6 +114,7 @@
 #endif
 #define DEFAULT_CURRENT_AMP_GAIN		0.003761	//Transfer Function [V/A] for ISB-425-A
 //#define DEFAULT_CURRENT_AMP_GAIN		0.001249	//Transfer Function [V/A] for HTFS 800-P
+//#define DEFAULT_CURRENT_AMP_GAIN		0.004994	//Transfer Function [V/A] for HASS 100-S
 //#define DEFAULT_CURRENT_AMP_GAIN		0.001249	//Transfer Function [V/A] for HASS 400-S
 //#define DEFAULT_CURRENT_AMP_GAIN		0.0008324	//Transfer Function [V/A] for HASS 600-S
 
