@@ -2866,8 +2866,12 @@ static void control_current(volatile motor_state_t *state_m, float dt) {
 //	utils_truncate_number((float*)&state_m->vq_int, -max_v_mag, max_v_mag);
 
 	// TODO: Have a look at this?
+#ifdef HW_HAS_INPUT_CURRENT_SENSOR
+	state_m->i_bus = GET_INPUT_CURRENT();
+#else
 	state_m->i_bus = state_m->mod_d * state_m->id + state_m->mod_q * state_m->iq;
-	state_m->i_abs = sqrtf(SQ(state_m->id) + SQ(state_m->iq));
+#endif
+    state_m->i_abs = sqrtf(SQ(state_m->id) + SQ(state_m->iq));
 	state_m->i_abs_filter = sqrtf(SQ(state_m->id_filter) + SQ(state_m->iq_filter));
 
 	float mod_alpha = c * state_m->mod_d - s * state_m->mod_q;

@@ -630,3 +630,7 @@ float hw_axiom_get_highest_IGBT_temp() {
 
 	return res;
 }
+
+float hw_axiom_read_input_current(void) {
+    return ((V_REG / 4095.0) / (CURRENT_AMP_GAIN)) * (ADC_Value[ADC_IND_EXT2] - 2048);
+}
