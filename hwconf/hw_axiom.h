@@ -27,7 +27,7 @@
 
 //#define HW_AXIOM_USE_DAC
 //#define HW_AXIOM_USE_MOTOR_TEMP
-//#define HW_HAS_INPUT_CURRENT_SENSOR
+#define HW_HAS_INPUT_CURRENT_SENSOR
 #define HW_USE_LINE_TO_LINE
 #define	HW_AXIOM_FORCE_HIGH_CURRENT_MEASUREMENTS
 #define HW_VERSION_AXIOM
@@ -143,6 +143,7 @@
 // Input voltage
 #define GET_INPUT_VOLTAGE()				((V_REG / 4095.0) * (float)ADC_Value[ADC_IND_VIN_SENS] * (HVDC_TRANSFER_FUNCTION))
 #define GET_INPUT_CURRENT()				hw_axiom_read_input_current()
+#define GET_INPUT_CURRENT_OFFSET()		hw_axiom_get_input_current_offset()
 
 // NTC Termistors
 #define NTC_RES(adc_val)				((4095.0 * 10000.0) / adc_val - 10000.0)
@@ -322,5 +323,7 @@ void hw_axiom_DAC2_setdata(uint16_t data);
 float hw_axiom_get_current_sensor_gain(void);
 float hw_axiom_get_highest_IGBT_temp(void);
 float hw_axiom_read_input_current(void);
+void hw_axiom_get_input_current_offset(void);
+void hw_axiom_start_current_input_sensor_offset_measurement(void);
 
 #endif /* HW_AXIOM_H_ */

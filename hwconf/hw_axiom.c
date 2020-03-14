@@ -64,6 +64,12 @@
 // Variables
 static volatile bool i2c_running = false;
 static volatile float current_sensor_gain = 0.0;
+//static volatile uint16_t input_current_sensor_offset = 2048;
+static volatile float input_current_sensor_offset_mV = 1.65;
+static volatile uint16_t input_current_sensor_offset_samples = 0;
+static volatile uint32_t input_current_sensor_offset_sum = 0;
+static volatile bool current_input_sensor_offset_start_measurement = false;
+
 //extern unsigned char FPGA_bitstream[BITSTREAM_SIZE];
 
 // I2C configuration
@@ -595,7 +601,7 @@ static void terminal_cmd_read_current_sensor_gain(int argc, const char **argv) {
 	//read back written data
 	current_sensor_gain = hw_axiom_read_current_sensor_gain();
 
-	commands_printf("Axiom current sensor sensor gain is set as %.8f", (double)current_sensor_gain);
+	commands_printf("Axiom current sensor gain is set as %.8f", (double)current_sensor_gain);
 	commands_printf(" ");
 	return;
 }
@@ -632,5 +638,29 @@ float hw_axiom_get_highest_IGBT_temp() {
 }
 
 float hw_axiom_read_input_current(void) {
-    return ((V_REG / 4095.0) / (CURRENT_AMP_GAIN)) * (ADC_Value[ADC_IND_EXT2] - 2048);
+    return ( (V_REG / 4095.0) * (float)ADC_Value[ADC_IND_EXT2] - input_current_sensor_offset_mV ) / (CURRENT_AMP_GAIN);
+}
+
+void hw_axiom_get_input_current_offset(void){
+
+	if(current_input_sensor_offset_start_measurement){
+
+		if( input_current_sensor_offset_samples == 100 ){
+			current_input_sensor_offset_start_measurement = false;
+			input_current_sensor_offset_mV = ((float)input_current_sensor_offset_sum) / 100.0;
+			input_current_sensor_offset_mV *= (V_REG / 4095.0);
+		}
+		else{
+			input_current_sensor_offset_sum += 	ADC_Value[ADC_IND_EXT2];
+			input_current_sensor_offset_samples++;
+		}
+	}else{
+		input_current_sensor_offset_samples++;
+	}
+}
+
+void hw_axiom_start_current_input_sensor_offset_measurement(void){
+	current_input_sensor_offset_start_measurement = true;
+	input_current_sensor_offset_samples = 0;
+	input_current_sensor_offset_sum = 0;
 }

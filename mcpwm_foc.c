@@ -2201,7 +2201,14 @@ void mcpwm_foc_adc_int_handler(void *p, uint32_t flags) {
 		m_motor_state.iq = 0.0;
 		m_motor_state.id_filter = 0.0;
 		m_motor_state.iq_filter = 0.0;
+	#ifdef HW_HAS_INPUT_CURRENT_SENSOR
+		#ifdef HW_VERSION_AXIOM
+			GET_INPUT_CURRENT_OFFSET();
+		#endif
+		m_motor_state.i_bus = GET_INPUT_CURRENT();
+	#else
 		m_motor_state.i_bus = 0.0;
+	#endif
 		m_motor_state.i_abs = 0.0;
 		m_motor_state.i_abs_filter = 0.0;
 
@@ -2397,6 +2404,16 @@ static THD_FUNCTION(timer_thread, arg) {
 		if (timer_thd_stop) {
 			timer_thd_stop = false;
 			return;
+		}
+
+		static uint16_t delay_current_offset_measurement = 0;
+
+		if(delay_current_offset_measurement++ == 1000){
+			#ifdef HW_HAS_INPUT_CURRENT_SENSOR
+				#ifdef HW_VERSION_AXIOM
+					hw_axiom_start_current_input_sensor_offset_measurement();
+				#endif
+			#endif
 		}
 
 		float openloop_rpm = utils_map(fabsf(m_motor_state.iq_target),
