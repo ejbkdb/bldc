@@ -2411,7 +2411,7 @@ static THD_FUNCTION(timer_thread, arg) {
 		if(delay_current_offset_measurement++ == 1000){
 			#ifdef HW_HAS_INPUT_CURRENT_SENSOR
 				#ifdef HW_VERSION_AXIOM
-					hw_axiom_start_current_input_sensor_offset_measurement();
+					hw_axiom_start_input_current_sensor_offset_measurement();
 				#endif
 			#endif
 		}

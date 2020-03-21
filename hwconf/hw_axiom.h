@@ -119,6 +119,8 @@
 //#define DEFAULT_CURRENT_AMP_GAIN		0.001249	//Transfer Function [V/A] for HASS 400-S
 //#define DEFAULT_CURRENT_AMP_GAIN		0.0008324	//Transfer Function [V/A] for HASS 600-S
 
+#define DEFAULT_INPUT_CURRENT_AMP_GAIN		250.0	//Transfer Function [A/V] for 4mv/A
+
 // Component parameters (can be overridden)
 #ifndef V_REG
 #define V_REG							3.3
@@ -324,6 +326,6 @@ float hw_axiom_get_current_sensor_gain(void);
 float hw_axiom_get_highest_IGBT_temp(void);
 float hw_axiom_read_input_current(void);
 void hw_axiom_get_input_current_offset(void);
-void hw_axiom_start_current_input_sensor_offset_measurement(void);
+void hw_axiom_start_input_current_sensor_offset_measurement(void);
 
 #endif /* HW_AXIOM_H_ */
