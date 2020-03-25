@@ -119,7 +119,7 @@
 //#define DEFAULT_CURRENT_AMP_GAIN		0.001249	//Transfer Function [V/A] for HASS 400-S
 //#define DEFAULT_CURRENT_AMP_GAIN		0.0008324	//Transfer Function [V/A] for HASS 600-S
 
-#define DEFAULT_INPUT_CURRENT_AMP_GAIN		250.0	//Transfer Function [A/V] for 4mv/A
+#define DEFAULT_INPUT_CURRENT_AMP_GAIN		0.004	//Transfer Function [V/A] for 4mv/A
 
 // Component parameters (can be overridden)
 #ifndef V_REG

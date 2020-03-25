@@ -216,7 +216,7 @@ void hw_init_gpio(void) {
 
 	terminal_register_command_callback(
 			"axiom_store_input_current_sensor_gain",
-			"Store new input current sensor gain in [A/V]",
+			"Store new input current sensor gain in [V/A]",
 			0,
 			terminal_cmd_store_input_current_sensor_gain);
 
@@ -615,7 +615,7 @@ static void terminal_cmd_store_input_current_sensor_gain(int argc, const char **
 		sscanf(argv[1], "%f", &(current_gain.as_float));
 
 		//limit max an min argument
-		if( current_gain.as_float > 0.0 && current_gain.as_float < 1000.0  ){
+		if( current_gain.as_float > 0.0 && current_gain.as_float < 1.0  ){
 			// Store data in eeprom
 			conf_general_store_eeprom_var_hw(&current_gain, EEPROM_ADDR_INPUT_CURRENT_GAIN);
 
@@ -632,13 +632,13 @@ static void terminal_cmd_store_input_current_sensor_gain(int argc, const char **
 
 		}
 		else{
-			commands_printf("argument should be > 0.00 and < 1000.0");
+			commands_printf("argument should be > 0.00 and < 1.0");
 		}
 
 	}
 	else {
 		commands_printf("1 argument required, for example:");
-		commands_printf("4mV per A:  axiom_store_input_current_sensor_gain 250.0");
+		commands_printf("4mV per A:  axiom_store_input_current_sensor_gain 0.004");
 		commands_printf(" ");
 	}
 	commands_printf(" ");
@@ -676,7 +676,7 @@ float hw_axiom_read_input_current_sensor_gain(void){
 
 	conf_general_read_eeprom_var_hw(&current_gain, EEPROM_ADDR_INPUT_CURRENT_GAIN);
 
-	if( (current_gain.as_float <= 0.0) || (current_gain.as_float >= 1000.0) )
+	if( (current_gain.as_float <= 0.0) || (current_gain.as_float >= 1.0) )
 		current_gain.as_float = DEFAULT_INPUT_CURRENT_AMP_GAIN;
 	return current_gain.as_float;
 }
@@ -704,7 +704,7 @@ float hw_axiom_get_highest_IGBT_temp() {
 }
 
 float hw_axiom_read_input_current(void) {
-    return ( (V_REG / 4095.0) * (float)ADC_Value[ADC_IND_EXT2] - input_current_sensor_offset ) * input_current_sensor_gain;
+    return ( (V_REG / 4095.0) * (float)ADC_Value[ADC_IND_EXT2] - input_current_sensor_offset ) / input_current_sensor_gain;
 }
 
 void hw_axiom_get_input_current_offset(void){
