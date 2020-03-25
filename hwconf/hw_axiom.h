@@ -144,8 +144,11 @@
 
 // Input voltage
 #define GET_INPUT_VOLTAGE()				((V_REG / 4095.0) * (float)ADC_Value[ADC_IND_VIN_SENS] * (HVDC_TRANSFER_FUNCTION))
+
+//Input current
 #define GET_INPUT_CURRENT()				hw_axiom_read_input_current()
 #define GET_INPUT_CURRENT_OFFSET()		hw_axiom_get_input_current_offset()
+#define MEASURE_INPUT_CURRENT_OFFSET()	hw_axiom_start_input_current_sensor_offset_measurement()
 
 // NTC Termistors
 #define NTC_RES(adc_val)				((4095.0 * 10000.0) / adc_val - 10000.0)
